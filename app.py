@@ -72,7 +72,7 @@ def competitionMetric2(true, pred): #any shape can go - can't be a loss function
     trueNegatives = K.sum(trueNegatives) 
 
     return (truePositives + trueNegatives) / castF(K.shape(true)[0])
-
+# model = load_model(MODEL_NAME)
 model = load_model(MODEL_NAME,custom_objects =   {'competitionMetric2':competitionMetric2})
 model.summary()
 def allowed_image(filename):
@@ -122,8 +122,7 @@ def detect_wheat(path):
     alpha = result[0]
     alpha = resize(alpha,(1024,1024))
     alpha = np.squeeze(alpha)
-    return alpha
-def draw_alpha(path,alpha):
+    \aw_alpha(path,alpha):
     alpha = np.where(alpha>0.43,.5,1.0)
     alpha_mask_img = Image.fromarray((alpha*255).astype(np.uint8))
     image = Image.open(path)
