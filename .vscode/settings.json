@@ -1,0 +1,5 @@
+{
+    "python.pythonPath": "/Users/anvu/opt/anaconda3/envs/FP/bin/python",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
+}

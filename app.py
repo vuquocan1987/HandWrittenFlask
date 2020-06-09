@@ -22,6 +22,8 @@ app.config["MAX_CONTENT_LENGTH"] = 50*1024*1024
 IMG_CHANNELS = 3
 MODEL_NAME = 'wheat_detection.h5'
 IMAGE_SIZE = 512
+def creat_model():
+    
 def castF(x):
     return K.cast(x, K.floatx())
 
