@@ -102,5 +102,4 @@ if __name__ == "__main__":
     image = cv2.imread('./src/form.png')
     print(image)
     predicts = hw.predict(image)
-
     print(predicts)
