@@ -5,16 +5,19 @@ from flask import request, redirect
 from werkzeug.utils import secure_filename
 from datetime import datetime
 
-from skimage.io import imread, imshow, imread_collection, concatenate_images
-from skimage.transform import resize
-from skimage.measure import label, regionprops
+import cv2
 from src.util import HandWrittingPredictor
 import numpy as np
 import tensorflow as tf
 import os
 import re
 
+app = Flask(__name__)
 predictor = HandWrittingPredictor()
+app.config["IMAGE_UPLOADS"] = os.path.join('static','upload')
+app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG","JPG","PNG","GIF"]
+app.config["MAX_CONTENT_LENGTH"] = 50*1024*1024
+
 def allowed_image(filename):
     if "." not in filename:
         return False
@@ -22,6 +25,7 @@ def allowed_image(filename):
     return ext.upper() in app.config["ALLOWED_IMAGE_EXTENSIONS"]
 def allowed_image_filesize(filesize):
     return int(filesize) <= app.config["MAX_CONTENT_LENGTH"] 
+
 @app.route("/")
 def home():
     return render_template("public/upload_image.html")
@@ -43,7 +47,7 @@ def hello_there(name):
     content = "Hello there, " + clean_name + "! It's " + formatted_now
     return content
 def load_and_predict(path):
-    img = imread(path)
+    img = cv2.imread(path)
     predicts = predictor.predict(img)
     return predicts[0]
 

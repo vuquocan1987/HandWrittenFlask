@@ -4,9 +4,10 @@ import tensorflow as tf
 import os
 import datetime
 import string
-from data.generator import DataGenerator,Tokenizer
-from network.model import HTRModel
-import data.preproc as pp
+from .network.model import HTRModel
+from .data.generator import DataGenerator,Tokenizer
+
+from .data.preproc import normalization
 
 def getParagraph(image):
     gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
@@ -91,7 +92,7 @@ class HandWrittingPredictor:
         lines = getLines(para)
         preprocessed_lines = pre_process(lines, (128, 1024))
         print(preprocessed_lines.shape)
-        preprocessed_lines = pp.normalization(preprocessed_lines)
+        preprocessed_lines = normalization(preprocessed_lines)
         predicts, _ = self.model.predict(preprocessed_lines)
         predicts_ = [self.tokenizer.decode(x[0]) for x in predicts]
         return predicts_

@@ -5,7 +5,7 @@ Image renderings and text are created on the fly each time.
 
 from itertools import groupby
 
-import data.preproc as pp
+from .preproc import normalization,text_standardize
 import h5py
 import numpy as np
 import unicodedata
@@ -59,14 +59,14 @@ class DataGenerator():
             self.index['train'] = until
 
             x_train = self.dataset['train']['dt'][index:until]
-            x_train = pp.augmentation(x_train,
+            x_train = augmentation(x_train,
                                       rotation_range=1.5,
                                       scale_range=0.05,
                                       height_shift_range=0.025,
                                       width_shift_range=0.05,
                                       erode_range=5,
                                       dilate_range=3)
-            x_train = pp.normalization(x_train)
+            x_train = normalization(x_train)
 
             y_train = [self.tokenizer.encode(y) for y in self.dataset['train']['gt'][index:until]]
             y_train = [np.pad(y, (0, self.tokenizer.maxlen - len(y))) for y in y_train]
@@ -86,7 +86,7 @@ class DataGenerator():
             self.index['valid'] = until
 
             x_valid = self.dataset['valid']['dt'][index:until]
-            x_valid = pp.normalization(x_valid)
+            x_valid = normalization(x_valid)
 
             y_valid = [self.tokenizer.encode(y) for y in self.dataset['valid']['gt'][index:until]]
             y_valid = [np.pad(y, (0, self.tokenizer.maxlen - len(y))) for y in y_valid]
@@ -107,7 +107,7 @@ class DataGenerator():
             self.index['test'] = until
             print(self.dataset['test']['dt'][index:until])
             x_test = self.dataset['test']['dt'][index:until]
-            x_test = pp.normalization(x_test)
+            x_test = normalization(x_test)
 
             yield x_test
 
@@ -147,7 +147,7 @@ class Tokenizer():
 
         decoded = "".join([self.chars[int(x)] for x in text if x > -1])
         decoded = self.remove_tokens(decoded)
-        decoded = pp.text_standardize(decoded)
+        decoded = text_standardize(decoded)
 
         return decoded
 
