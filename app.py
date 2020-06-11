@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask,json
 
 from flask import render_template,url_for
 from flask import request, redirect
@@ -49,7 +49,7 @@ def hello_there(name):
 def load_and_predict(path):
     img = cv2.imread(path)
     predicts = predictor.predict(img)
-    return predicts[0]
+    return predicts
 
 @app.route("/files",methods=["GET"])
 def get_image():
@@ -77,7 +77,8 @@ def upload_image():
                 path = os.path.join(app.config["IMAGE_UPLOADS"],filename)
                 image.save(os.path.join(app.config["IMAGE_UPLOADS"],filename))
                 predicts = load_and_predict(path)
-            
-            return render_template("public/show_result.html",predicts = predicts)
+            print('return the json')
+            # return json.dumps({'status':'OK','user':"hi",'pass':'ok'});
+            return render_template("public/upload_image.html",predicts = predicts)
     return render_template("public/upload_image.html")
 

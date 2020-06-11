@@ -48,9 +48,7 @@ def pre_process(lines,dsize):
     for line in lines:
         
         line = line.T
-        print(line.shape)
         new_line = cv2.resize(line,dsize)
-        print(new_line.shape)
         new_lines.append(new_line)
     return np.array(new_lines)
 def creat_model():
@@ -63,16 +61,16 @@ def creat_model():
     source_path = os.path.join("./src", "data", f"{source}.hdf5")
     output_path = os.path.join("./src", "output", source, arch)
     target_path = os.path.join(output_path, "checkpoint_weights.hdf5")
-    print(os.path.isfile(target_path))
-    print(os.path.abspath(target_path))
+    # print(os.path.isfile(target_path))
+    # print(os.path.abspath(target_path))
     os.makedirs(output_path, exist_ok=True)
 
     # define input size, number max of chars per line and list of valid chars
     input_size = (1024, 128, 1)
     max_text_length = 128
     charset_base = string.printable[:95]
-    print('pwd',os.getcwd())
-    print("source:", source_path)
+    # print('pwd',os.getcwd())
+    # print("source:", source_path)
     print("output", output_path)
     print("target", target_path)
     print("charset:", charset_base)
@@ -93,7 +91,6 @@ class HandWrittingPredictor:
         para = getParagraph(img)
         lines = getLines(para)
         preprocessed_lines = pre_process(lines, (128, 1024))
-        print(preprocessed_lines.shape)
         preprocessed_lines = normalization(preprocessed_lines)
         predicts, _ = self.model.predict(preprocessed_lines)
         predicts_ = [self.tokenizer.decode(x[0]) for x in predicts]

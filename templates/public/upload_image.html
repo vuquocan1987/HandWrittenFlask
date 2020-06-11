@@ -55,14 +55,17 @@
 
     </div>
     <div class="col-lg-10 align-self-end">
-      <h1 class="text-uppercase text-white font-weight-bold">Wheat Detection</h1>
+      <h1 class="text-uppercase text-white font-weight-bold">Handwritting</h1>
       <hr class="divider my-4" />
     </div>
-
+    
     <div class="col-lg-8 align-self-baseline">
-      <p class="text-white-75 font-weight-light mb-5">This is a project to identify the wheat by picture
-      </p>
+        {% for predict in predicts %}
+      <br class="text-white-75 font-weight-light mb-5">{{predict}}
+    </br>
+      {% endfor %}
     </div>
+    
   </div>
 </div>
 <script>
