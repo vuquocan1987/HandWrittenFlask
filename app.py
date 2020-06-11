@@ -49,7 +49,7 @@ def hello_there(name):
 def load_and_predict(path):
     img = cv2.imread(path)
     predicts = predictor.predict(img)
-    return predicts
+    return predicts[::-1]
 
 @app.route("/files",methods=["GET"])
 def get_image():
